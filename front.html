@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moji EditX Official</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root {
+    --bg: #0d0d0f;
+    --bg-card: #17171b;
+    --text: #edeae3;
+    --text-dim: #9a9aa2;
+    --accent: #e8a33d;
+    --accent-dim: #6b5326;
+    --line: #2a2a2e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Film sprocket motif — used sparingly as the signature element */
+  .sprockets {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 6%;
+  }
+  .sprockets span {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    background: var(--line);
+  }
+  .sprockets.top { margin-top: 24px; }
+  .sprockets.bottom { margin: 40px 0 24px; }
+
+  header {
+    padding: 60px 6% 40px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+
+  h1 {
+    font-family: 'Archivo Black', sans-serif;
+    font-weight: 400;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+
+  header p {
+    margin-top: 16px;
+    max-width: 520px;
+    color: var(--text-dim);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  main {
+    padding: 20px 6% 80px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px;
+    margin-top: 20px;
+  }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.25s ease, transform 0.25s ease;
+  }
+
+  .card:hover {
+    border-color: var(--accent-dim);
+    transform: translateY(-3px);
+  }
+
+  .video-wrap {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    overflow: hidden;
+  }
+
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    background: #000;
+  }
+
+  .card-body {
+    padding: 18px 20px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .clip-label {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .clip-number {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .clip-title {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text);
+  }
+
+  .dl-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: #17130a;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 10px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.2s ease, transform 0.15s ease;
+  }
+
+  .dl-btn:hover {
+    background: #f3b25c;
+    transform: scale(1.03);
+  }
+
+  .dl-btn:focus-visible,
+  video:focus-visible,
+  a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .dl-btn svg { width: 14px; height: 14px; }
+
+  /* Follow / subscribe bar */
+  .follow-bar {
+    margin: 10px 6% 0;
+    padding: 30px 5%;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  .follow-bar .follow-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 18px;
+  }
+
+  .follow-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .follow-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 22px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease, transform 0.15s ease, background 0.2s ease;
+  }
+
+  .follow-link i { font-size: 1.15rem; }
+
+  .follow-link.youtube:hover { border-color: #ff3b3b; background: rgba(255,59,59,0.08); transform: translateY(-2px); }
+  .follow-link.youtube i { color: #ff3b3b; }
+
+  .follow-link.instagram:hover { border-color: #e1306c; background: rgba(225,48,108,0.08); transform: translateY(-2px); }
+  .follow-link.instagram i { color: #e1306c; }
+
+  /* Subscribe gate modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.72);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 100;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal-box {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    max-width: 380px;
+    width: 100%;
+    padding: 30px 26px 26px;
+    text-align: center;
+  }
+
+  .modal-box i.fa-youtube {
+    font-size: 2.4rem;
+    color: #ff3b3b;
+    margin-bottom: 14px;
+  }
+
+  .modal-box h3 {
+    font-size: 1.15rem;
+    margin-bottom: 10px;
+  }
+
+  .modal-box p {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 22px;
+  }
+
+  .modal-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    background: var(--accent);
+    color: #17130a;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 12px 16px;
+    border-radius: 7px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .modal-btn:hover { background: #f3b25c; }
+
+  .modal-note {
+    margin-top: 14px;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+  }
+
+  .modal-close {
+    margin-top: 10px;
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  footer {
+    text-align: center;
+    padding: 30px 6% 50px;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 480px) {
+    header { padding: 44px 6% 30px; }
+    .card-body { flex-direction: column; align-items: flex-start; }
+    .dl-btn { width: 100%; justify-content: center; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card, .dl-btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="sprockets top">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <header>
+    <div class="eyebrow">Downloads</div>
+    <h1>Moji EditX</h1>
+    <p>A hand-picked set of clips, ready to preview or pull down to your device. Tap play to check a clip, or hit download to keep it.</p>
+  </header>
+
+  <main>
+    <div class="grid">
+
+      <div class="card">
+        <div class="video-wrap">
+          <video src="clip1.mp4" controls preload="metadata"></video>
+        </div>
+        <div class="card-body">
+          <div class="clip-label">
+            <span class="clip-number">Clip 01</span>
+            <span class="clip-title">clip1.mp4</span>
+          </div>
+          <button class="dl-btn" onclick="gateDownload('clip1.mp4')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 20h16"/></svg>
+            Save
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="video-wrap">
+          <video src="clip2.mp4" controls preload="metadata"></video>
+        </div>
+        <div class="card-body">
+          <div class="clip-label">
+            <span class="clip-number">Clip 02</span>
+            <span class="clip-title">clip2.mp4</span>
+          </div>
+          <button class="dl-btn" onclick="gateDownload('clip2.mp4')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 20h16"/></svg>
+            Save
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="video-wrap">
+          <video src="clip3.mp4" controls preload="metadata"></video>
+        </div>
+        <div class="card-body">
+          <div class="clip-label">
+            <span class="clip-number">Clip 03</span>
+            <span class="clip-title">clip3.mp4</span>
+          </div>
+          <button class="dl-btn" onclick="gateDownload('clip3.mp4')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 20h16"/></svg>
+            Save
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="video-wrap">
+          <video src="clip4.mp4" controls preload="metadata"></video>
+        </div>
+        <div class="card-body">
+          <div class="clip-label">
+            <span class="clip-number">Clip 04</span>
+            <span class="clip-title">clip4.mp4</span>
+          </div>
+          <button class="dl-btn" onclick="gateDownload('clip4.mp4')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 20h16"/></svg>
+            Save
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="video-wrap">
+          <video src="clip5.mp4" controls preload="metadata"></video>
+        </div>
+        <div class="card-body">
+          <div class="clip-label">
+            <span class="clip-number">Clip 05</span>
+            <span class="clip-title">clip5.mp4</span>
+          </div>
+          <button class="dl-btn" onclick="gateDownload('clip5.mp4')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 20h16"/></svg>
+            Save
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="video-wrap">
+          <video src="clip6.mp4" controls preload="metadata"></video>
+        </div>
+        <div class="card-body">
+          <div class="clip-label">
+            <span class="clip-number">Clip 06</span>
+            <span class="clip-title">clip6.mp4</span>
+          </div>
+          <button class="dl-btn" onclick="gateDownload('clip6.mp4')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 20h16"/></svg>
+            Save
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="video-wrap">
+          <video src="clip7.mp4" controls preload="metadata"></video>
+        </div>
+        <div class="card-body">
+          <div class="clip-label">
+            <span class="clip-number">Clip 07</span>
+            <span class="clip-title">clip7.mp4</span>
+          </div>
+          <button class="dl-btn" onclick="gateDownload('clip7.mp4')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 20h16"/></svg>
+            Save
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="video-wrap">
+          <video src="clip8.mp4" controls preload="metadata"></video>
+        </div>
+        <div class="card-body">
+          <div class="clip-label">
+            <span class="clip-number">Clip 08</span>
+            <span class="clip-title">clip8.mp4</span>
+          </div>
+          <button class="dl-btn" onclick="gateDownload('clip8.mp4')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 20h16"/></svg>
+            Save
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div class="follow-bar">
+    <div class="follow-eyebrow">Support the creator</div>
+    <div class="follow-links">
+      <a class="follow-link youtube" href="https://www.youtube.com/@MOJIEDITX" target="_blank" rel="noopener noreferrer">
+        <i class="fa-brands fa-youtube"></i> Subscribe to Moji EditX
+      </a>
+      <a class="follow-link instagram" href="https://www.instagram.com/moji_editx?igsh=dDlzdnhjN3QydGV3" target="_blank" rel="noopener noreferrer">
+        <i class="fa-brands fa-instagram"></i> Moji EditX
+      </a>
+    </div>
+  </div>
+
+  <div class="sprockets bottom">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <footer>Clip Vault — served privately</footer>
+
+  <!-- Subscribe gate modal -->
+  <div class="modal-overlay" id="subGateModal">
+    <div class="modal-box">
+      <i class="fa-brands fa-youtube"></i>
+      <h3>Subscribe before downloading</h3>
+      <p>Hit subscribe on Moji EditX's channel, then come back — your download will start right after.</p>
+      <button class="modal-btn" onclick="confirmSubscribeAndDownload()">
+        <i class="fa-brands fa-youtube"></i> Subscribe & Continue
+      </button>
+      <div class="modal-note">Already subscribed? Just click above to continue.</div>
+      <button class="modal-close" onclick="closeGateModal()">Cancel</button>
+    </div>
+  </div>
+
+  <script>
+    let pendingClip = null;
+
+    function gateDownload(clipFile) {
+      const alreadyConfirmed = localStorage.getItem('mojieditx_subscribed') === 'true';
+      if (alreadyConfirmed) {
+        triggerDownload(clipFile);
+        return;
+      }
+      pendingClip = clipFile;
+      document.getElementById('subGateModal').classList.add('open');
+    }
+
+    function confirmSubscribeAndDownload() {
+      window.open('https://www.youtube.com/@MOJIEDITX', '_blank', 'noopener,noreferrer');
+      localStorage.setItem('mojieditx_subscribed', 'true');
+      closeGateModal();
+      if (pendingClip) {
+        setTimeout(() => triggerDownload(pendingClip), 600);
+      }
+    }
+
+    function closeGateModal() {
+      document.getElementById('subGateModal').classList.remove('open');
+    }
+
+    function triggerDownload(clipFile) {
+      const a = document.createElement('a');
+      a.href = clipFile;
+      a.download = clipFile;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  </script>
+
+</body>
+</html>
