@@ -3,6 +3,8 @@ const path = require("path");
 const limit = require("express-rate-limit");
 const app = express();
 
+const PORT = 3000;
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/downloads", limit({
@@ -16,6 +18,6 @@ app.get("/downloads", (req, res)=>{
     res.sendFile(path.join(__dirname, "front.html"));
 });
 
-app.listen(3000, ()=>{
+app.listen(PORT, ()=>{
     console.log("server started");
 });
