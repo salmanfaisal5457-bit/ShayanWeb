@@ -12,6 +12,16 @@ app.use("/downloads", limit({
     max: 20,
     message: "<h1>429</h1>Too many requests."
 }));
+app.use((req, res, next) => {
+    console.log("----- REQUEST -----");
+    console.log("Time:", new Date().toISOString());
+    console.log("Method:", req.method);
+    console.log("Path:", req.originalUrl);
+    console.log("IP:", req.ip);
+    console.log("User-Agent:", req.get("User-Agent"));
+    console.log("-------------------");
+    next();
+});
 
 app.get("/downloads", (req, res)=>{
     console.log(req.ip);
